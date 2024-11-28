@@ -11,7 +11,11 @@
             --city: #825824;
             --stroke: #241e15;
             --stroke-width: 2;
+        }
 
+        use {
+            stroke: var(--stroke);
+            stroke-width: var(--stroke-width);
         }
     </style>
 </head>
@@ -30,6 +34,7 @@
             <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
             <circle cx="0" cy="120" r="65" fill="var(--road)" />
             <circle cx="0" cy="120" r="55" fill="var(--field)" />
+            <rect x="0" y="0" width="120" height="120" fill="rgba(0,0,0,0)" />
         </symbol>
         <symbol id="frffrffrf" viewBox="0 0 120 120">
             <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
@@ -39,6 +44,7 @@
             <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
             <circle cx="120" cy="0" r="65" fill="var(--road)" />
             <circle cx="120" cy="0" r="55" fill="var(--field)" />
+            <rect x="0" y="0" width="120" height="120" fill="rgba(0,0,0,0)" /> <!-- Transparent rectangle required for stroke. -->
         </symbol>
 
         <!-- City pieces -->
