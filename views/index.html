@@ -164,36 +164,108 @@
         </symbol>
     </svg>
 
-    <svg id="board" width="500" height="500">
-        <use xlink:href="#frf" x="0" y="0" />
-        <use xlink:href="#fffrrffrf" x="100" y="0" />
-        <use xlink:href="#ffc" x="200" y="0" />
-        <use xlink:href="#crf-90" x="300" y="0" />
-        <use xlink:href="#cffccfccc" x="400" y="0" />
-
-        <use xlink:href="#ffc" x="000" y="100" />
-        <use xlink:href="#frffrffrf" x="100" y="100" />
-        <use xlink:href="#fcffcffcf" x="200" y="100" />
-        <use xlink:href="#frffrffrf" x="300" y="100" />
-        <use xlink:href="#cff" x="400" y="100" />
-
-        <use xlink:href="#cff" x="0" y="200" />
-        <use xlink:href="#frffrrfff" x="100" y="200" />
-        <use xlink:href="#crf" x="200" y="200" />
-        <use xlink:href="#frfrirfff" x="300" y="200" />
-        <use xlink:href="#crf-180" x="400" y="200" />
-
-        <use xlink:href="#ffffrrfrf" x="0" y="300" />
-        <use xlink:href="#frf" x="100" y="300" />
-        <use xlink:href="#fffrrffrf" x="200" y="300" />
-        <use xlink:href="#cff-90" x="300" y="300" />
-        <use xlink:href="#cccccfcff" x="400" y="300" />
-    </svg>
+    <div id="board-wrapper" style="width: 100vw; height: 100vh; overflow: auto;">
+        <svg id="board" width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+            <use xlink:href="#frf" x="0" y="0" />
+            <use xlink:href="#fffrrffrf" x="100" y="0" />
+            <use xlink:href="#ffc" x="200" y="0" />
+            <use xlink:href="#crf-90" x="300" y="0" />
+            <use xlink:href="#cffccfccc" x="400" y="0" />
+    
+            <use xlink:href="#ffc" x="000" y="100" />
+            <use xlink:href="#frffrffrf" x="100" y="100" />
+            <use xlink:href="#fcffcffcf" x="200" y="100" />
+            <use xlink:href="#frffrffrf" x="300" y="100" />
+            <use xlink:href="#cff" x="400" y="100" />
+    
+            <use xlink:href="#cff" x="0" y="200" />
+            <use xlink:href="#frffrrfff" x="100" y="200" />
+            <use xlink:href="#crf" x="200" y="200" />
+            <use xlink:href="#frfrirfff" x="300" y="200" />
+            <use xlink:href="#crf-180" x="400" y="200" />
+    
+            <use xlink:href="#ffffrrfrf" x="0" y="300" />
+            <use xlink:href="#frf" x="100" y="300" />
+            <use xlink:href="#fffrrffrf" x="200" y="300" />
+            <use xlink:href="#cff-90" x="300" y="300" />
+            <use xlink:href="#cccccfcff" x="400" y="300" />
+        </svg>
+    </div>
     <script>
         document.querySelectorAll('#board > use').forEach(elm => {
             elm.setAttribute('width', 100);
             elm.setAttribute('height', 100);
         })
+
+        const container = document.getElementById('board-wrapper');
+
+        let isDragging = false;
+        let startX, startY, prevX, prevY, scrollLeft, scrollTop;
+        let velocityX = 0, velocityY = 0;
+        let momentumAnimation;
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            container.style.cursor = 'grabbing';
+            startX = e.pageX - container.offsetLeft;
+            startY = e.pageY - container.offsetTop;
+            prevX = e.pageX;
+            prevY = e.pageY;
+            scrollLeft = container.scrollLeft;
+            scrollTop = container.scrollTop;
+
+            // Stop any ongoing momentum animation.
+            velocityX = 0;
+            velocityY = 0;
+            cancelAnimationFrame(momentumAnimation);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX;
+            const y = e.pageY;
+            const deltaX = x - startX;
+            const deltaY = y - startY;
+            container.scrollLeft = scrollLeft - deltaX;
+            container.scrollTop = scrollTop - deltaY;
+            velocityX = x - prevX;
+            velocityY = y - prevY;
+            prevX = x;
+            prevY = y;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (!isDragging) return;
+
+            isDragging = false;
+            container.style.cursor = 'grab';
+
+            applyMomentum(velocityX, velocityY);
+        });
+
+        // Momentum effect
+        function applyMomentum(initialVelocityX, initialVelocityY) {
+            const friction = 0.85; // Friction factor to slow down scrolling.
+            const stopThreshold = 0.5; // Minimum speed to stop scrolling.
+
+            function animate() {
+                // Apply friction to reduce velocity.
+                initialVelocityX *= friction;
+                initialVelocityY *= friction;
+
+                // Update scroll position based on current velocity.
+                container.scrollLeft -= initialVelocityX;
+                container.scrollTop -= initialVelocityY;
+
+                // If velocity is still above the threshold, continue the animation.
+                if (Math.abs(initialVelocityX) > stopThreshold || Math.abs(initialVelocityY) > stopThreshold) {
+                    momentumAnimation = requestAnimationFrame(animate);
+                }
+            }
+
+            animate();
+        }
     </script>
 </body>
 </html>
