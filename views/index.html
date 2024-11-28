@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+            --field: #5eff5e;
+            --road: #dddddd;
+            --city: #825824;
+            --stroke: #241e15;
+            --stroke-width: 2;
+
+        }
+    </style>
+</head>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="f" viewBox="0 0 120 120">
+            <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
+        </symbol>
+
+        <!-- Road pieces -->
+        <symbol id="frf" viewBox="0 0 120 120">
+            <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
+            <rect x="0" y="55" width="120" height="10" fill="var(--road)" />
+        </symbol>
+        <symbol id="fffrrffrf" viewBox="0 0 120 120">
+            <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
+            <circle cx="0" cy="120" r="65" fill="var(--road)" />
+            <circle cx="0" cy="120" r="55" fill="var(--field)" />
+        </symbol>
+        <symbol id="frffrffrf" viewBox="0 0 120 120">
+            <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
+            <rect x="55" y="0" width="10" height="120" fill="var(--road)" />
+        </symbol>
+        <symbol id="frffrrfff" viewBox="0 0 120 120">
+            <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
+            <circle cx="120" cy="0" r="65" fill="var(--road)" />
+            <circle cx="120" cy="0" r="55" fill="var(--field)" />
+        </symbol>
+
+        <!-- City pieces -->
+        <symbol id="ffc" viewBox="0 0 120 120">
+            <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
+            <polygon points="0,120 0,110 20,90 100,90 120,110 120,120" fill="var(--city)" />
+        </symbol>
+        <symbol id="cff" viewBox="0 0 120 120">
+            <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
+            <polygon points="0,0 0,10 20,30 100,30 120,10 120,0" fill="var(--city)" />
+        </symbol>
+    </svg>
+
+    <svg width="500" height="500">
+        <use xlink:href="#frf" width="100" height="100" x="0" y="0" />
+        <use xlink:href="#fffrrffrf" width="100" height="100" x="100" y="0" />
+        <use xlink:href="#f" width="100" height="100" x="200" y="0" />
+
+        <use xlink:href="#ffc" width="100" height="100" x="000" y="100" />
+        <use xlink:href="#frffrffrf" width="100" height="100" x="100" y="100" />
+        <use xlink:href="#f" width="100" height="100" x="200" y="100" />
+
+        <use xlink:href="#cff" width="100" height="100" x="0" y="200" />
+        <use xlink:href="#frffrrfff" width="100" height="100" x="100" y="200" />
+        <use xlink:href="#frf" width="100" height="100" x="200" y="200" />
+    </svg>
+</body>
+</html>
