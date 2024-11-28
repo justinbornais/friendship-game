@@ -25,10 +25,14 @@
             <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
         </symbol>
 
+        <symbol id="road-h" viewBox="0 0 120 120">
+            <rect x="0" y="55" width="120" height="10" fill="var(--road)" />
+        </symbol>
+
         <!-- Road pieces -->
         <symbol id="frf" viewBox="0 0 120 120">
             <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
-            <rect x="0" y="55" width="120" height="10" fill="var(--road)" />
+            <use href="#road-h" />
         </symbol>
         <symbol id="fffrrffrf" viewBox="0 0 120 120">
             <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
