@@ -82,7 +82,14 @@
         <symbol id="city-h" viewBox="0 0 120 120">
             <use href="#city-v" transform="rotate(90 60 60)" />
         </symbol>
+        <symbol id="city-d" viewBox="0 0 120 120">
+            <polygon points="0,120 30,100 55,60 85,30 100,18 120,0 0,0 0,120" fill="var(--city)" />
+        </symbol>
 
+        
+        <!--
+            Actual board tiles.
+        -->
         <!-- Road pieces -->
         <symbol id="frf" viewBox="0 0 120 120">
             <use href="#f" />
@@ -91,6 +98,11 @@
         <symbol id="fffrrffrf" viewBox="0 0 120 120">
             <use href="#f" />
             <use href="#road-turn" transform="rotate(270 60 60)" />
+            <use href="#t" />
+        </symbol>
+        <symbol id="ffffrrfrf" viewBox="0 0 120 120">
+            <use href="#f" />
+            <use href="#road-turn" transform="rotate(180 60 60)" />
             <use href="#t" />
         </symbol>
         <symbol id="frffrffrf" viewBox="0 0 120 120">
@@ -116,9 +128,23 @@
             <use href="#f" />
             <use href="#city" />
         </symbol>
+        <symbol id="cff-90" viewBox="0 0 120 120">
+            <use href="#f" />
+            <use href="#city-r" />
+        </symbol>
         <symbol id="fcffcffcf" viewBox="0 0 120 120">
             <use href="#f" />
             <use href="#city-v" />
+        </symbol>
+
+        <!-- Diagonal city pieces -->
+        <symbol id="cffccfccc" viewBox="0 0 120 120">
+            <use href="#f" />
+            <use href="#city-d" transform="rotate(270 60 60)" />
+        </symbol>
+        <symbol id="cccccfcff" viewBox="0 0 120 120">
+            <use href="#f" />
+            <use href="#city-d" />
         </symbol>
 
         <!-- City road pieces -->
@@ -143,16 +169,25 @@
         <use xlink:href="#fffrrffrf" x="100" y="0" />
         <use xlink:href="#ffc" x="200" y="0" />
         <use xlink:href="#crf-90" x="300" y="0" />
+        <use xlink:href="#cffccfccc" x="400" y="0" />
 
         <use xlink:href="#ffc" x="000" y="100" />
         <use xlink:href="#frffrffrf" x="100" y="100" />
         <use xlink:href="#fcffcffcf" x="200" y="100" />
         <use xlink:href="#frffrffrf" x="300" y="100" />
+        <use xlink:href="#cff" x="400" y="100" />
 
         <use xlink:href="#cff" x="0" y="200" />
         <use xlink:href="#frffrrfff" x="100" y="200" />
         <use xlink:href="#crf" x="200" y="200" />
         <use xlink:href="#frfrirfff" x="300" y="200" />
+        <use xlink:href="#crf-180" x="400" y="200" />
+
+        <use xlink:href="#ffffrrfrf" x="0" y="300" />
+        <use xlink:href="#frf" x="100" y="300" />
+        <use xlink:href="#fffrrffrf" x="200" y="300" />
+        <use xlink:href="#cff-90" x="300" y="300" />
+        <use xlink:href="#cccccfcff" x="400" y="300" />
     </svg>
     <script>
         document.querySelectorAll('#board > use').forEach(elm => {
