@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <!--
+        Base symbols 
+    -->
+    <symbol id="f" viewBox="0 0 120 120">
+        <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
+    </symbol>
+    <symbol id="t" viewBox="0 0 120 120">
+        <rect x="0" y="0" width="120" height="120" fill="rgba(0,0,0,0)" /> <!-- Transparent rectangle required for stroke. -->
+    </symbol>
+
+    <!-- Roads -->
+    <symbol id="road-half" viewBox="0 0 120 120">
+        <rect x="0" y="55" width="60" height="10" fill="var(--road)" />
+    </symbol>
+    <symbol id="road" viewBox="0 0 120 120">
+        <rect x="0" y="55" width="120" height="10" fill="var(--road)" />
+    </symbol>
+    <symbol id="road-turn" viewBox="0 0 120 120">
+        <circle cx="0" cy="0" r="65" fill="var(--road)" />
+        <circle cx="0" cy="0" r="55" fill="var(--field)" />
+    </symbol>
+    <symbol id="intersection-block" viewBox="0 0 120 120">
+        <rect x="55" y="55" width="10" height="10" fill="var(--road)" stroke="var(--intersection-stroke)" stroke-width="var(--stroke-width)" />
+    </symbol>
+    <symbol id="intersection-3" viewBox="0 0 120 120">
+        <polygon points="50,55 55,55 55,50 65,50 65,55 70,55 70,65 50,65 50,55" fill="var(--road)" stroke="var(--intersection-stroke)" stroke-width="var(--stroke-width)" />
+    </symbol>
+    <symbol id="intersection-4" viewBox="0 0 120 120">
+        <polygon points="50,55 55,55 55,50 65,50 65,55 70,55 70,65 65,65 65,70 55,70 55,65 50,65 50,55" fill="var(--road)" stroke="var(--intersection-stroke)" stroke-width="var(--stroke-width)" />
+    </symbol>
+    <symbol id="inter-3" viewBox="0 0 120 120">
+        <use href="#road-half" transform="rotate(90 60 60)" />
+        <use href="#road" />
+        <use href="#intersection-block" />
+    </symbol>
+    <symbol id="inter-4" viewBox="0 0 120 120">
+        <use href="#road" transform="rotate(90 60 60)" />
+        <use href="#road" />
+        <use href="#intersection-block" />
+    </symbol>
+
+    <!-- Cities -->
+    <symbol id="city" viewBox="0 0 120 120">
+        <polygon points="0,0 0,10 20,30 100,30 120,10 120,0" fill="var(--city)" />
+    </symbol>
+    <symbol id="city-r" viewBox="0 0 120 120">
+        <use href="#city" transform="rotate(90 60 60)" />
+    </symbol>
+    <symbol id="city-b" viewBox="0 0 120 120">
+        <use href="#city" transform="rotate(180 60 60)" />
+    </symbol>
+    <symbol id="city-l" viewBox="0 0 120 120">
+        <use href="#city" transform="rotate(270 60 60)" />
+    </symbol>
+    <symbol id="city-v" viewBox="0 0 120 120">
+        <polygon points="0,0 0,10 20,30 20,90 0,110 0,120 120,120 120,110 100,90 100,30 120,10 120,0 0,0" fill="var(--city)" />
+    </symbol>
+    <symbol id="city-h" viewBox="0 0 120 120">
+        <use href="#city-v" transform="rotate(90 60 60)" />
+    </symbol>
+    <symbol id="city-d" viewBox="0 0 120 120">
+        <polygon points="0,120 30,100 55,60 85,30 100,18 120,0 0,0 0,120" fill="var(--city)" />
+    </symbol>
+
+    
+    <!--
+        Actual board tiles.
+    -->
+    <!-- Road pieces -->
+    <symbol id="frf" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#road" />
+    </symbol>
+    <symbol id="fffrrffrf" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#road-turn" transform="rotate(270 60 60)" />
+        <use href="#t" />
+    </symbol>
+    <symbol id="ffffrrfrf" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#road-turn" transform="rotate(180 60 60)" />
+        <use href="#t" />
+    </symbol>
+    <symbol id="frffrffrf" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#road" transform="rotate(90 60 60)" />
+    </symbol>
+    <symbol id="frffrrfff" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#road-turn" transform="rotate(90 60 60)" />
+        <use href="#t" />
+    </symbol>
+    <symbol id="frfrirfff" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#inter-3" />
+    </symbol>
+
+    <!-- City pieces -->
+    <symbol id="ffc" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#city-b" />
+    </symbol>
+    <symbol id="cff" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#city" />
+    </symbol>
+    <symbol id="cff-90" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#city-r" />
+    </symbol>
+    <symbol id="fcffcffcf" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#city-v" />
+    </symbol>
+
+    <!-- Diagonal city pieces -->
+    <symbol id="cffccfccc" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#city-d" transform="rotate(270 60 60)" />
+    </symbol>
+    <symbol id="cccccfcff" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#city-d" />
+    </symbol>
+
+    <!-- City road pieces -->
+    <symbol id="crf" viewBox="0 0 120 120">
+        <use href="#f" />
+        <use href="#city" />
+        <use href="#road" />
+    </symbol>
+    <symbol id="crf-90" viewBox="0 0 120 120">
+        <use href="#crf" transform="rotate(90 60 60)" />
+    </symbol>
+    <symbol id="crf-180" viewBox="0 0 120 120">
+        <use href="#crf" transform="rotate(180 60 60)" />
+    </symbol>
+    <symbol id="crf-270" viewBox="0 0 120 120">
+        <use href="#crf" transform="rotate(270 60 60)" />
+    </symbol>
+</svg>

@@ -1,0 +1,26 @@
+:root {
+    --field: #5eff5e;
+    --road: #dddddd;
+    --city: #825824;
+    --stroke: #241e15;
+    --stroke-width: 2;
+    --intersection-stroke: #ff2222;
+}
+
+use {
+    stroke: var(--stroke);
+    stroke-width: var(--stroke-width);
+}
+
+#board-wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    position: relative;
+    touch-action: none;
+}
+
+#board {
+    transform-origin: center;
+    transition: transform 0.1s ease;
+}

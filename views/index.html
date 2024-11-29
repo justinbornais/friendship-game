@@ -3,357 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        :root {
-            --field: #5eff5e;
-            --road: #dddddd;
-            --city: #825824;
-            --stroke: #241e15;
-            --stroke-width: 2;
-            --intersection-stroke: #ff2222;
-        }
-
-        use {
-            stroke: var(--stroke);
-            stroke-width: var(--stroke-width);
-        }
-
-        #board-wrapper {
-            width: 100vw;
-            height: 100vh;
-            overflow: auto;
-            position: relative;
-            touch-action: none;
-        }
-
-        #board {
-            transform-origin: center;
-            transition: transform 0.1s ease;
-        }
-    </style>
+    <title>Friendship Game</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <!--
-            Base symbols 
-        -->
-        <symbol id="f" viewBox="0 0 120 120">
-            <rect x="0" y="0" width="120" height="120" fill="var(--field)" />
-        </symbol>
-        <symbol id="t" viewBox="0 0 120 120">
-            <rect x="0" y="0" width="120" height="120" fill="rgba(0,0,0,0)" /> <!-- Transparent rectangle required for stroke. -->
-        </symbol>
-
-        <!-- Roads -->
-        <symbol id="road-half" viewBox="0 0 120 120">
-            <rect x="0" y="55" width="60" height="10" fill="var(--road)" />
-        </symbol>
-        <symbol id="road" viewBox="0 0 120 120">
-            <rect x="0" y="55" width="120" height="10" fill="var(--road)" />
-        </symbol>
-        <symbol id="road-turn" viewBox="0 0 120 120">
-            <circle cx="0" cy="0" r="65" fill="var(--road)" />
-            <circle cx="0" cy="0" r="55" fill="var(--field)" />
-        </symbol>
-        <symbol id="intersection-block" viewBox="0 0 120 120">
-            <rect x="55" y="55" width="10" height="10" fill="var(--road)" stroke="var(--intersection-stroke)" stroke-width="var(--stroke-width)" />
-        </symbol>
-        <symbol id="intersection-3" viewBox="0 0 120 120">
-            <polygon points="50,55 55,55 55,50 65,50 65,55 70,55 70,65 50,65 50,55" fill="var(--road)" stroke="var(--intersection-stroke)" stroke-width="var(--stroke-width)" />
-        </symbol>
-        <symbol id="intersection-4" viewBox="0 0 120 120">
-            <polygon points="50,55 55,55 55,50 65,50 65,55 70,55 70,65 65,65 65,70 55,70 55,65 50,65 50,55" fill="var(--road)" stroke="var(--intersection-stroke)" stroke-width="var(--stroke-width)" />
-        </symbol>
-        <symbol id="inter-3" viewBox="0 0 120 120">
-            <use href="#road-half" transform="rotate(90 60 60)" />
-            <use href="#road" />
-            <use href="#intersection-block" />
-        </symbol>
-        <symbol id="inter-4" viewBox="0 0 120 120">
-            <use href="#road" transform="rotate(90 60 60)" />
-            <use href="#road" />
-            <use href="#intersection-block" />
-        </symbol>
-
-        <!-- Cities -->
-        <symbol id="city" viewBox="0 0 120 120">
-            <polygon points="0,0 0,10 20,30 100,30 120,10 120,0" fill="var(--city)" />
-        </symbol>
-        <symbol id="city-r" viewBox="0 0 120 120">
-            <use href="#city" transform="rotate(90 60 60)" />
-        </symbol>
-        <symbol id="city-b" viewBox="0 0 120 120">
-            <use href="#city" transform="rotate(180 60 60)" />
-        </symbol>
-        <symbol id="city-l" viewBox="0 0 120 120">
-            <use href="#city" transform="rotate(270 60 60)" />
-        </symbol>
-        <symbol id="city-v" viewBox="0 0 120 120">
-            <polygon points="0,0 0,10 20,30 20,90 0,110 0,120 120,120 120,110 100,90 100,30 120,10 120,0 0,0" fill="var(--city)" />
-        </symbol>
-        <symbol id="city-h" viewBox="0 0 120 120">
-            <use href="#city-v" transform="rotate(90 60 60)" />
-        </symbol>
-        <symbol id="city-d" viewBox="0 0 120 120">
-            <polygon points="0,120 30,100 55,60 85,30 100,18 120,0 0,0 0,120" fill="var(--city)" />
-        </symbol>
-
-        
-        <!--
-            Actual board tiles.
-        -->
-        <!-- Road pieces -->
-        <symbol id="frf" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#road" />
-        </symbol>
-        <symbol id="fffrrffrf" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#road-turn" transform="rotate(270 60 60)" />
-            <use href="#t" />
-        </symbol>
-        <symbol id="ffffrrfrf" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#road-turn" transform="rotate(180 60 60)" />
-            <use href="#t" />
-        </symbol>
-        <symbol id="frffrffrf" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#road" transform="rotate(90 60 60)" />
-        </symbol>
-        <symbol id="frffrrfff" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#road-turn" transform="rotate(90 60 60)" />
-            <use href="#t" />
-        </symbol>
-        <symbol id="frfrirfff" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#inter-3" />
-        </symbol>
-
-        <!-- City pieces -->
-        <symbol id="ffc" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#city-b" />
-        </symbol>
-        <symbol id="cff" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#city" />
-        </symbol>
-        <symbol id="cff-90" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#city-r" />
-        </symbol>
-        <symbol id="fcffcffcf" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#city-v" />
-        </symbol>
-
-        <!-- Diagonal city pieces -->
-        <symbol id="cffccfccc" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#city-d" transform="rotate(270 60 60)" />
-        </symbol>
-        <symbol id="cccccfcff" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#city-d" />
-        </symbol>
-
-        <!-- City road pieces -->
-        <symbol id="crf" viewBox="0 0 120 120">
-            <use href="#f" />
-            <use href="#city" />
-            <use href="#road" />
-        </symbol>
-        <symbol id="crf-90" viewBox="0 0 120 120">
-            <use href="#crf" transform="rotate(90 60 60)" />
-        </symbol>
-        <symbol id="crf-180" viewBox="0 0 120 120">
-            <use href="#crf" transform="rotate(180 60 60)" />
-        </symbol>
-        <symbol id="crf-270" viewBox="0 0 120 120">
-            <use href="#crf" transform="rotate(270 60 60)" />
-        </symbol>
-    </svg>
-
     <div id="board-wrapper">
-        <svg id="board" width="500" height="500" xmlns="http://www.w3.org/2000/svg">
-            <use xlink:href="#frf" x="0" y="0" />
-            <use xlink:href="#fffrrffrf" x="100" y="0" />
-            <use xlink:href="#ffc" x="200" y="0" />
-            <use xlink:href="#crf-90" x="300" y="0" />
-            <use xlink:href="#cffccfccc" x="400" y="0" />
+        <svg id="board" width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
+            <use xlink:href="board-pieces.svg#frf" x="0" y="0" />
+            <use xlink:href="board-pieces.svg#fffrrffrf" x="100" y="0" />
+            <use xlink:href="board-pieces.svg#ffc" x="200" y="0" />
+            <use xlink:href="board-pieces.svg#crf-90" x="300" y="0" />
+            <use xlink:href="board-pieces.svg#cffccfccc" x="400" y="0" />
     
-            <use xlink:href="#ffc" x="000" y="100" />
-            <use xlink:href="#frffrffrf" x="100" y="100" />
-            <use xlink:href="#fcffcffcf" x="200" y="100" />
-            <use xlink:href="#frffrffrf" x="300" y="100" />
-            <use xlink:href="#cff" x="400" y="100" />
+            <use xlink:href="board-pieces.svg#ffc" x="000" y="100" />
+            <use xlink:href="board-pieces.svg#frffrffrf" x="100" y="100" />
+            <use xlink:href="board-pieces.svg#fcffcffcf" x="200" y="100" />
+            <use xlink:href="board-pieces.svg#frffrffrf" x="300" y="100" />
+            <use xlink:href="board-pieces.svg#cff" x="400" y="100" />
     
-            <use xlink:href="#cff" x="0" y="200" />
-            <use xlink:href="#frffrrfff" x="100" y="200" />
-            <use xlink:href="#crf" x="200" y="200" />
-            <use xlink:href="#frfrirfff" x="300" y="200" />
-            <use xlink:href="#crf-180" x="400" y="200" />
+            <use xlink:href="board-pieces.svg#cff" x="0" y="200" />
+            <use xlink:href="board-pieces.svg#frffrrfff" x="100" y="200" />
+            <use xlink:href="board-pieces.svg#crf" x="200" y="200" />
+            <use xlink:href="board-pieces.svg#frfrirfff" x="300" y="200" />
+            <use xlink:href="board-pieces.svg#crf-180" x="400" y="200" />
     
-            <use xlink:href="#ffffrrfrf" x="0" y="300" />
-            <use xlink:href="#frf" x="100" y="300" />
-            <use xlink:href="#fffrrffrf" x="200" y="300" />
-            <use xlink:href="#cff-90" x="300" y="300" />
-            <use xlink:href="#cccccfcff" x="400" y="300" />
+            <use xlink:href="board-pieces.svg#ffffrrfrf" x="0" y="300" />
+            <use xlink:href="board-pieces.svg#frf" x="100" y="300" />
+            <use xlink:href="board-pieces.svg#fffrrffrf" x="200" y="300" />
+            <use xlink:href="board-pieces.svg#cff-90" x="300" y="300" />
+            <use xlink:href="board-pieces.svg#cccccfcff" x="400" y="300" />
         </svg>
     </div>
     <script>
         document.querySelectorAll('#board > use').forEach(elm => {
             elm.setAttribute('width', 100);
             elm.setAttribute('height', 100);
-        })
-
-        const container = document.getElementById('board-wrapper');
-        const svg = document.getElementById("board");
-
-        let isDragging = false, isPinching = false;
-        let startX, startY, prevX, prevY, scrollLeft, scrollTop;
-        let velocityX = 0, velocityY = 0;
-        let momentumAnimation;
-        let scale = 1;
-        let startDistance = 0; // Initial distance between two touch points.
-
-        function pressDown(e) {
-            isDragging = true;
-            container.style.cursor = 'grabbing';
-            startX = e.pageX - container.offsetLeft;
-            startY = e.pageY - container.offsetTop;
-            prevX = e.pageX;
-            prevY = e.pageY;
-            scrollLeft = container.scrollLeft;
-            scrollTop = container.scrollTop;
-
-            // Stop any ongoing momentum animation.
-            velocityX = 0;
-            velocityY = 0;
-            cancelAnimationFrame(momentumAnimation);
-        }
-
-        function pressMove(e) {
-            if (!isDragging) return;
-            e.preventDefault();
-            const x = e.pageX;
-            const y = e.pageY;
-            const deltaX = x - startX;
-            const deltaY = y - startY;
-            container.scrollLeft = scrollLeft - deltaX;
-            container.scrollTop = scrollTop - deltaY;
-            velocityX = x - prevX;
-            velocityY = y - prevY;
-            prevX = x;
-            prevY = y;
-        }
-
-        function pressUp(e) {
-            if (!isDragging) return;
-
-            isDragging = false;
-            container.style.cursor = 'grab';
-
-            applyMomentum(velocityX, velocityY);
-        }
-
-        container.addEventListener('mousedown', pressDown);
-        document.addEventListener('mousemove', pressMove);
-        document.addEventListener('mouseup', pressUp);
-
-        // Momentum effect for scrolling.
-        function applyMomentum(initialVelocityX, initialVelocityY) {
-            const friction = 0.85; // Friction factor to slow down scrolling.
-            const stopThreshold = 0.5; // Minimum speed to stop scrolling.
-
-            function animate() {
-                // Apply friction to reduce velocity.
-                initialVelocityX *= friction;
-                initialVelocityY *= friction;
-
-                // Update scroll position based on current velocity.
-                container.scrollLeft -= initialVelocityX;
-                container.scrollTop -= initialVelocityY;
-
-                // If velocity is still above the threshold, continue the animation.
-                if (Math.abs(initialVelocityX) > stopThreshold || Math.abs(initialVelocityY) > stopThreshold) {
-                    momentumAnimation = requestAnimationFrame(animate);
-                }
-            }
-
-            animate();
-        }
-
-        // Helper function to get the distance between two touch points.
-        function getDistance(touch1, touch2) {
-            const dx = touch2.clientX - touch1.clientX;
-            const dy = touch2.clientY - touch1.clientY;
-            return Math.sqrt(dx * dx + dy * dy);
-        }
-
-        container.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 2) {
-                isPinching = true;
-                startDistance = getDistance(e.touches[0], e.touches[1]);
-            } else if (e.touches.length === 1) {
-                isDragging = true;
-                startX = e.touches[0].pageX - container.offsetLeft;
-                startY = e.touches[0].pageY - container.offsetTop;
-                prevX = e.touches[0].pageX;
-                prevY = e.touches[0].pageY;
-                scrollLeft = container.scrollLeft;
-                scrollTop = container.scrollTop;
-
-                // Stop any ongoing momentum animation.
-                velocityX = 0;
-                velocityY = 0;
-                cancelAnimationFrame(momentumAnimation);
-            }
-        });
-    
-        container.addEventListener('touchmove', (e) => {
-            if (isPinching && e.touches.length === 2) {
-                e.preventDefault();
-    
-                const currentDistance = getDistance(e.touches[0], e.touches[1]);
-                const scaleChange = currentDistance / startDistance;
-    
-                // Update scale.
-                scale *= scaleChange;
-                scale = Math.min(Math.max(scale, 0.1), 10); // Keep a min and max value.
-    
-                svg.style.transform = `scale(${scale})`;
-    
-                startDistance = currentDistance;
-            } else if (isDragging && e.touches.length === 1) {
-                const x = e.touches[0].pageX;
-                const y = e.touches[0].pageY;
-                const deltaX = x - startX;
-                const deltaY = y - startY;
-
-                container.scrollLeft = scrollLeft - deltaX;
-                container.scrollTop = scrollTop - deltaY;
-
-                // Calculate velocity for momentum.
-                velocityX = x - prevX;
-                velocityY = y - prevY;
-                prevX = x;
-                prevY = y;
-            }
-        });
-    
-        container.addEventListener('touchend', (e) => {
-            if (isPinching && e.touches.length < 2) {
-                isPinching = false;
-                startDistance = 0;
-            } else if (isDragging && e.touches.length === 0) {
-                isDragging = false;
-                applyMomentum(velocityX, velocityY);
-            }
+            elm.setAttribute('x', parseInt(elm.getAttribute('x')) + 200);
+            elm.setAttribute('y', parseInt(elm.getAttribute('y')) + 200);
         });
     </script>
+    <script src="static/scroll.js" type="text/javascript"></script>
 </body>
 </html>
